@@ -9,6 +9,9 @@ var ballY = 50;
 var ballSpeedX = 10;
 var ballSpeedY = 4;
 
+var player1Score = 0;
+var player2Score = 0;
+
 var paddle1Y = 250;
 var paddle2Y = 250;
 const PADDLE_HEIGHT = 100; 						// const vaste waarde, veranderd niet tijdens game
@@ -60,7 +63,6 @@ function computerMovement() {
 function moveEverything() {
 	computerMovement();
 
-
 	ballX += ballSpeedX;					// = zelfde als: ballX= ballX + ballSpeedX;
 	ballY += ballSpeedY;					// = zelfde als: ballY= ballY + ballSpeedY;
 
@@ -70,6 +72,7 @@ function moveEverything() {
 			ballSpeedX = -ballSpeedX;				// flips the ball back when hits the paddle
 		} else {
 			ballReset();						// else it will reset the ball from the middle
+			player2Score++;						// als de bal links gemist wordt, krijgt player 2 een punt erbij // player2Score++ is hetzelfde als player2Score += 1
 		}
 	}
 	if(ballX > canvas.width) {						// right side
@@ -77,7 +80,8 @@ function moveEverything() {
 		   ballY < paddle2Y+PADDLE_HEIGHT) {				
 			ballSpeedX = -ballSpeedX;				
 		} else {
-			ballReset();						
+			ballReset();
+			player1Score++;						// als de bal rechts gemist wordt, krijgt player 1 een punt erbij						
 		}
 	}
 	if(ballX > canvas.width) {
@@ -96,6 +100,9 @@ function drawEverything() {
 	colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');					// this is left player paddle
 	colorRect(canvas.width-PADDLE_THICKNESS,paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');	// this is right computer paddle
 	colorCircle(ballX, ballY, 10, 'white'); 							// this line draws the ball + the colorCircle function is underneath
+	
+	canvasContext.fillText(player1Score,100,100);				// score van player 1
+	canvasContext.fillText(player2Score,canvas.width-100,100);		// score van player 2
 }
 
 function colorCircle(centerX,centerY,radius,drawColor) {
