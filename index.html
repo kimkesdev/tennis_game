@@ -10,7 +10,9 @@ var ballSpeedX = 10;
 var ballSpeedY = 4;
 
 var paddle1Y = 250;
+var paddle2Y = 250;
 const PADDLE_HEIGHT = 100; 						// const vaste waarde, veranderd niet tijdens game
+const PADDLE_THICKNESS = 10; 						// ipv op verschillende plaatsen 10 te hebben staan, nu 1x
 
 function calculateMousePos(evt) {					// evt = event
 	var rect = canvas.getBoundingClientRect(); 			// rect() creates a rectangle
@@ -50,12 +52,20 @@ function moveEverything() {
 	ballX= ballX + ballSpeedX;
 	ballY= ballY + ballSpeedY;
 
-	if(ballX < 0) {
-		if(ballY > paddle1Y &&						
-		   ballY < paddle1Y+PADDLE_HEIGHT) {				
+	if(ballX < 0) {								// left side
+		if(ballY > paddle1Y &&						// middle till the bottom of the paddle
+		   ballY < paddle1Y+PADDLE_HEIGHT) {				// middle till the top of the paddle
 			ballSpeedX = -ballSpeedX;				// flips the ball back when hits the paddle
 		} else {
 			ballReset();						// else it will reset the ball from the middle
+		}
+	}
+	if(ballX > canvas.width) {						// right side
+		if(ballY > paddle2Y &&						
+		   ballY < paddle2Y+PADDLE_HEIGHT) {				
+			ballSpeedX = -ballSpeedX;				
+		} else {
+			ballReset();						
 		}
 	}
 	if(ballX > canvas.width) {
@@ -70,9 +80,10 @@ function moveEverything() {
 }
 
 function drawEverything() {
-	colorRect(0,0,canvas.width,canvas.height,'black');			// this line blacks out the screen with black
-	colorRect(0,paddle1Y,10,PADDLE_HEIGHT,'white');				// this is left player paddle
-	colorCircle(ballX, ballY, 10, 'white'); 				// this line draws the ball + the colorCircle function is underneath
+	colorRect(0,0,canvas.width,canvas.height,'black');						// this line blacks out the screen with black
+	colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');					// this is left player paddle
+	colorRect(canvas.width-PADDLE_THICKNESS,paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');	// this is right computer paddle
+	colorCircle(ballX, ballY, 10, 'white'); 							// this line draws the ball + the colorCircle function is underneath
 }
 
 function colorCircle(centerX,centerY,radius,drawColor) {
