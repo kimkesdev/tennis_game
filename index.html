@@ -11,6 +11,9 @@ var ballSpeedY = 4;
 
 var player1Score = 0;
 var player2Score = 0;
+const WINNING_SCORE = 3;						// value when game stops
+
+var showingWinScreen = false;
 
 var paddle1Y = 250;
 var paddle2Y = 250;
@@ -46,6 +49,13 @@ window.onload = function () {
 }
 
 function ballReset() {
+	if(player1Score >= WINNING_SCORE ||
+	   player2Score >= WINNING_SCORE) {
+		player1Score = 0;
+		player2Score = 0;
+		showingWinScreen = true;
+	}
+	
 	ballSpeedX = -ballSpeedX;
 	ballX = canvas.width/2;
 	ballY = canvas.height/2;
@@ -61,6 +71,9 @@ function computerMovement() {
 }
 
 function moveEverything() {
+	if(showingWinScreen) {
+		return;
+	}
 	computerMovement();
 
 	ballX += ballSpeedX;					// = zelfde als: ballX= ballX + ballSpeedX;
@@ -75,8 +88,10 @@ function moveEverything() {
 				-(paddle1Y+PADDLE-HEIGHT/2);
 			ballSpeedY = deltaY * 0.35;
 		} else {
+			player2Score++;						// als de bal links gemist wordt, krijgt player 2 een punt erbij 
+										// player2Score++ is hetzelfde als player2Score += 1
+										// must be BEFORE ballReset()
 			ballReset();						// else it will reset the ball from the middle
-			player2Score++;						// als de bal links gemist wordt, krijgt player 2 een punt erbij // player2Score++ is hetzelfde als player2Score += 1
 		}
 	}
 	if(ballX > canvas.width) {						// right side
@@ -88,8 +103,9 @@ function moveEverything() {
 				-(paddle2Y+PADDLE-HEIGHT/2);
 			ballSpeedY = deltaY * 0.35;				
 		} else {
-			ballReset();
-			player1Score++;						// als de bal rechts gemist wordt, krijgt player 1 een punt erbij						
+			player1Score++;						// als de bal rechts gemist wordt, krijgt player 1 een punt erbij
+										// must be BEFORE ballReset()
+			ballReset();						
 		}
 	}
 	if(ballX > canvas.width) {
@@ -105,6 +121,13 @@ function moveEverything() {
 
 function drawEverything() {
 	colorRect(0,0,canvas.width,canvas.height,'black');						// this line blacks out the screen with black
+
+	if(showingWinScreen) {
+		canvasContext.fillStyle = drawColor;
+		canvasContext.fillText("click to contique",100,100);
+		return;
+	}
+
 	colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');					// this is left player paddle
 	colorRect(canvas.width-PADDLE_THICKNESS,paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');	// this is right computer paddle
 	colorCircle(ballX, ballY, 10, 'white'); 							// this line draws the ball + the colorCircle function is underneath
