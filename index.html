@@ -70,11 +70,11 @@ function ballReset() {
 }
 
 function computerMovement() {
-	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);	// uitlijning in het midden ipv bovenkant
-	if(paddle2YCenter < ballY-35) {				// -35 is stop bewegen als de bal hierbinnen valt
-		paddle2Y += 6;					// = zelfde als: paddle2Y = paddle2Y + 6;
-	} else if {paddle2YCenter > ballY+35) {			// +35 is stop bewegen als de bal hierbinnen valt
-		paddle2Y -=6;					// = zelfde als: paddle2Y = paddle2Y -6;
+	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);			// uitlijning in het midden ipv bovenkant
+	if(paddle2YCenter < ballY-35) {						// -35 is stop bewegen als de bal hierbinnen valt
+		paddle2Y += 6;							// = zelfde als: paddle2Y = paddle2Y + 6;
+	} else if (paddle2YCenter > ballY+35) {					// +35 is stop bewegen als de bal hierbinnen valt
+		paddle2Y -=6;							// = zelfde als: paddle2Y = paddle2Y -6;
 	}
 }
 
@@ -84,8 +84,8 @@ function moveEverything() {
 	}
 	computerMovement();
 
-	ballX += ballSpeedX;					// = zelfde als: ballX= ballX + ballSpeedX;
-	ballY += ballSpeedY;					// = zelfde als: ballY= ballY + ballSpeedY;
+	ballX += ballSpeedX;							// = zelfde als: ballX= ballX + ballSpeedX;
+	ballY += ballSpeedY;							// = zelfde als: ballY= ballY + ballSpeedY;
 
 	if(ballX < 0) {								// left side
 		if(ballY > paddle1Y &&						// middle till the bottom of the paddle
@@ -127,11 +127,17 @@ function moveEverything() {
 	}
 }
 
+function drawNet() {
+	for(var i=0;i<canvas.height; i+=40) {					// every 40 pixels
+		colorRect(canvas.width/2-1,i,2,20,'white');			// 2,20 = 2 pixels width, 20 pixels tall
+	}
+}
+
 function drawEverything() {
-	colorRect(0,0,canvas.width,canvas.height,'black');						// this line blacks out the screen with black
+	colorRect(0,0,canvas.width,canvas.height,'black');			// this line blacks out the screen with black
 
 	if(showingWinScreen) {
-		canvasContext.fillStyle = drawColor;
+		canvasContext.fillStyle = 'white';
 
 		if(player1Score >= WINNING_SCORE) {
 			canvasContext.fillText("Left Player Won!",350,200);
@@ -139,9 +145,11 @@ function drawEverything() {
 			canvasContext.fillText("Right Player Won!",350,200);
 		}
 
-		canvasContext.fillText("click to contique",350,500);
+		canvasContext.fillText("click to continue",350,500);
 		return;
 	}
+
+	drawNet();
 
 	colorRect(0,paddle1Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');					// this is left player paddle
 	colorRect(canvas.width-PADDLE_THICKNESS,paddle2Y,PADDLE_THICKNESS,PADDLE_HEIGHT,'white');	// this is right computer paddle
