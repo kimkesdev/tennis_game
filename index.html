@@ -31,6 +31,14 @@ function calculateMousePos(evt) {					// evt = event
 	};
 }
 
+function handleMouseClick(evt) {
+	if(showingWinScreen) {
+		player1Score = 0;
+		player2Score = 0;
+		showingWinScreen = false;
+	}
+}
+
 window.onload = function () {
 	canvas = document.getElementById('gameCanvas');
 	canvasContext = canvas.getContext('2d');
@@ -40,6 +48,8 @@ window.onload = function () {
 		moveEverything();
 		drawEverything();
 	}, 1000/framesPerSecond );
+
+	canvas.addEventListener('mousedown',handleMouseClick);			// function linked with handleMouseClick, underneath is a inline function
 
 	canvas.addEventListener('mousemove',
 			function(evt) {
@@ -51,8 +61,6 @@ window.onload = function () {
 function ballReset() {
 	if(player1Score >= WINNING_SCORE ||
 	   player2Score >= WINNING_SCORE) {
-		player1Score = 0;
-		player2Score = 0;
 		showingWinScreen = true;
 	}
 	
@@ -124,7 +132,14 @@ function drawEverything() {
 
 	if(showingWinScreen) {
 		canvasContext.fillStyle = drawColor;
-		canvasContext.fillText("click to contique",100,100);
+
+		if(player1Score >= WINNING_SCORE) {
+			canvasContext.fillText("Left Player Won!",350,200);
+		} else if(player2Score >= WINNING_SCORE) {
+			canvasContext.fillText("Right Player Won!",350,200);
+		}
+
+		canvasContext.fillText("click to contique",350,500);
 		return;
 	}
 
