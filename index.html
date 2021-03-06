@@ -70,6 +70,10 @@ function moveEverything() {
 		if(ballY > paddle1Y &&						// middle till the bottom of the paddle
 		   ballY < paddle1Y+PADDLE_HEIGHT) {				// middle till the top of the paddle
 			ballSpeedX = -ballSpeedX;				// flips the ball back when hits the paddle
+
+			var deltaY = ballY					// ball speed adds when hits on top end or bottom end
+				-(paddle1Y+PADDLE-HEIGHT/2);
+			ballSpeedY = deltaY * 0.35;
 		} else {
 			ballReset();						// else it will reset the ball from the middle
 			player2Score++;						// als de bal links gemist wordt, krijgt player 2 een punt erbij // player2Score++ is hetzelfde als player2Score += 1
@@ -78,7 +82,11 @@ function moveEverything() {
 	if(ballX > canvas.width) {						// right side
 		if(ballY > paddle2Y &&						
 		   ballY < paddle2Y+PADDLE_HEIGHT) {				
-			ballSpeedX = -ballSpeedX;				
+			ballSpeedX = -ballSpeedX;
+
+			var deltaY = ballY
+				-(paddle2Y+PADDLE-HEIGHT/2);
+			ballSpeedY = deltaY * 0.35;				
 		} else {
 			ballReset();
 			player1Score++;						// als de bal rechts gemist wordt, krijgt player 1 een punt erbij						
