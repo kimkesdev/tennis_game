@@ -93,7 +93,7 @@ function moveEverything() {
 			ballSpeedX = -ballSpeedX;				// flips the ball back when hits the paddle
 
 			var deltaY = ballY					// ball speed adds when hits on top end or bottom end
-				-(paddle1Y+PADDLE-HEIGHT/2);
+				-(paddle1Y+PADDLE_HEIGHT/2);
 			ballSpeedY = deltaY * 0.35;
 		} else {
 			player2Score++;						// als de bal links gemist wordt, krijgt player 2 een punt erbij 
