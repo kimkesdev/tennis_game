@@ -36,7 +36,7 @@ window.onload = function () {
 	canvas.addEventListener('mousemove',
 			function(evt) {
 				var mousePos = calculateMousePos(evt);
-				paddle1Y = mousePos.y;
+				paddle1Y = mousePos.y-(PADDLE_HEIGHT/2);	// PADDLE_HEIGHT/2 is vanuit het midden ipv vanaf boven
 			});
 }
 
@@ -59,7 +59,7 @@ function moveEverything() {
 
 function drawEverything() {
 	colorRect(0,0,canvas.width,canvas.height,'black');			// this line blacks out the screen with black
-	colorRect(0,paddle1Y,10,100,'white');					// this is left player paddle
+	colorRect(0,paddle1Y,10,PADDLE_HEIGHT,'white');				// this is left player paddle
 	colorCircle(ballX, ballY, 10, 'white'); 				// this line draws the ball + the colorCircle function is underneath
 }
 
