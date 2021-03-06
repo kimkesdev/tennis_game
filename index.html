@@ -48,9 +48,21 @@ function ballReset() {
 	ballY = canvas.height/2;
 }
 
+function computerMovement() {
+	var paddle2YCenter = paddle2Y + (PADDLE_HEIGHT/2);	// uitlijning in het midden ipv bovenkant
+	if(paddle2YCenter < ballY-35) {				// -35 is stop bewegen als de bal hierbinnen valt
+		paddle2Y += 6;					// = zelfde als: paddle2Y = paddle2Y + 6;
+	} else if {paddle2YCenter > ballY+35) {			// +35 is stop bewegen als de bal hierbinnen valt
+		paddle2Y -=6;					// = zelfde als: paddle2Y = paddle2Y -6;
+	}
+}
+
 function moveEverything() {
-	ballX= ballX + ballSpeedX;
-	ballY= ballY + ballSpeedY;
+	computerMovement();
+
+
+	ballX += ballSpeedX;					// = zelfde als: ballX= ballX + ballSpeedX;
+	ballY += ballSpeedY;					// = zelfde als: ballY= ballY + ballSpeedY;
 
 	if(ballX < 0) {								// left side
 		if(ballY > paddle1Y &&						// middle till the bottom of the paddle
